@@ -121,9 +121,29 @@ description: |
 - 按骨架文件的 Checklist 逐项核对
 - 核完后交给需求方确认产品参数和活动信息
 
-### Step 6 — 定稿保存
-- 命名格式见§文件保存
-- 稿件定稿后发布到飞书知识库（如适用）
+### Step 6 — 定稿：写入飞书文档
+
+用户确认终稿后，调用 `lark-cli docs +create` 将稿件写入飞书文档。
+
+**命令模板**：
+```bash
+lark-cli docs +create \
+  --title "【标签】YYYYMMDD_品牌_事件_看点" \
+  --content 'XML 正文（<h1>/<h2>/<p>/<hr/>）' \
+  --as user
+```
+
+**流程**：
+1. 将终稿正文转为 lark-doc XML 格式
+2. 调用 `lark-cli docs +create` 写入飞书
+3. **必须将文档短链显式输出到对话框**，让用户一键点击查看
+
+**输出格式**（定稿完成后必须在对话框输出）：
+
+> ✅ 稿件已写入飞书文档
+> 🔗 点击查看：https://xxx.feishu.cn/docx/TOKEN
+
+**注意**：`--title` 和 `--content` 中不要同时出现 `<title>` 标签。创建文档前不需额外加载文件——直接使用 `lark-cli docs +create` 内嵌的 `lark-doc` skill 指引。
 
 ---
 
@@ -400,27 +420,11 @@ AI 原稿 vs 用户修改版，逐句对齐，精确到字词、句式、衔接�
 
 ---
 
-## 文件保存
+## 交付物
 
-### 本地命名格式
-```
-【赛事直击】YYYYMMDD_品牌_赛事_看点.md
-【赛事预告】YYYYMMDD_品牌_赛事_平台.md
-【展会直击】YYYYMMDD_品牌_展会_看点.md
-【展会预告】YYYYMMDD_品牌_展会_看点.md
-【直播预告】YYYYMMDD_品牌_主题_平台.md
-【电竞新品】YYYYMMDD_品牌_系列名_技术亮点.md
-【校园巡展】YYYYMMDD_品牌_学校_看点.md
-【深度结盟】YYYYMMDD_品牌_合作方_主题.md（战略签约/技术合作）
-【重磅合作】YYYYMMDD_品牌_合作方_主题.md（产品指定/技术落地）
-【生态共建】YYYYMMDD_品牌_合作方_主题.md
-【竞逐新程】YYYYMMDD_品牌_合作方_主题.md
-【喜报】YYYYMMDD_品牌_奖项_主题.md
-【活动速递】YYYYMMDD_品牌_活动_看点.md
-```
+稿件定稿后通过 `lark-cli docs +create --as user` 写入飞书云文档，不保存本地文件。文档创建后必须在对话框输出可点击的飞书短链。
 
-### 标签格式标准
-统一使用 **【】** 方括号，禁用 `「」`。标签可自创但不强制采用标准标签。详情见 `references/行文措辞说明文档.md` §十二。
+本机环境：macOS，`lark-cli` 已安装配置完成，无需额外鉴权步骤。
 
 ---
 
